@@ -7,8 +7,13 @@ powerUse <- read.csv("household_power_consumption.txt",
 powerUse$timestamp <- strptime(paste(powerUse$Date, powerUse$Time), 
                                format = "%d/%m/%Y %H:%M:%S")
 powerUse2Days <- powerUse[powerUse$Date %in% c("1/2/2007","2/2/2007"),]
-png(filename = "plot2.png", width=480, height=480, bg="white")
-plot(powerUse2Days$timestamp,
-     powerUse2Days$Global_active_power, type = "l",
-     ylab = "Global Active Power (kilowatts)", xlab ="")
+png(filename = "plot3.png", width=480, height=480, bg="white")
+with(powerUse2Days, {
+     plot(timestamp, Sub_metering_1, type = "l",
+          ylab = "Energy sub metering", xlab ="")
+     points(timestamp, Sub_metering_2, col = "red", type = "l")
+     points(timestamp, Sub_metering_3, col = "blue", type = "l")
+     legend("topright", lty=1, col = c("black", "red", "blue"), 
+            legend = names(colNames)[7:9])
+})
 dev.off()
